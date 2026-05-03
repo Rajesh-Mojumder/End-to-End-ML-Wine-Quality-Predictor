@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/CCOMADL/Project%203/End-to-end-Machine-Learning-Project-with-MLflow/mlruns/0/8daf8f9bdc8b4f84a39f34a43e78007f/artifacts
+end_time: 1777752791673
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 8daf8f9bdc8b4f84a39f34a43e78007f
+run_name: powerful-smelt-181
+run_uuid: 8daf8f9bdc8b4f84a39f34a43e78007f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1777752787408
+status: 3
+tags: []
+user_id: r

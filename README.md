@@ -1,168 +1,163 @@
-# End-to-end-Machine-Learning-Project-with-MLflow
+# End-to-End ML Wine Quality Predictor
 
+An end-to-end Machine Learning project that predicts the quality of red wine based on physicochemical properties. Built with **MLflow** for experiment tracking, **ElasticNet** regression for modelling, and **Flask** for serving predictions via a web interface.
 
-## Workflows
+**Live Demo:** [GitHub Repository](https://github.com/Rajesh-Mojumder/End-to-End-ML-Wine-Quality-Predictor)
 
-1. Update config.yaml
-2. Update schema.yaml
-3. Update params.yaml
+---
+
+## Project Workflows
+
+1. Update `config.yaml`
+2. Update `schema.yaml`
+3. Update `params.yaml`
 4. Update the entity
-5. Update the configuration manager in src config
+5. Update the configuration manager in `src/config`
 6. Update the components
-7. Update the pipeline 
-8. Update the main.py
-9. Update the app.py
+7. Update the pipeline
+8. Update `main.py`
+9. Update `app.py`
 
+---
 
+## How to Run?
 
-# How to run?
 ### STEPS:
 
-Clone the repository
+**Clone the repository**
 
 ```bash
-https://github.com/entbappy/End-to-end-Machine-Learning-Project-with-MLflow
+git clone https://github.com/Rajesh-Mojumder/End-to-End-ML-Wine-Quality-Predictor.git
+cd End-to-End-ML-Wine-Quality-Predictor
 ```
-### STEP 01- Create a conda environment after opening the repository
+
+### STEP 01 — Create a conda environment
 
 ```bash
 conda create -n mlproj python=3.8 -y
-```
-
-```bash
 conda activate mlproj
 ```
 
+### STEP 02 — Install the requirements
 
-### STEP 02- install the requirements
 ```bash
 pip install -r requirements.txt
 ```
 
+### STEP 03 — Run the app
 
 ```bash
-# Finally run the following command
 python app.py
 ```
 
-Now,
-```bash
-open up you local host and port
-```
+Then open your browser at `http://127.0.0.1:5050`
 
+---
 
+## MLflow Experiment Tracking
 
-## MLflow
+[MLflow Documentation](https://mlflow.org/docs/latest/index.html)
 
-[Documentation](https://mlflow.org/docs/latest/index.html)
-
-
-##### cmd
-- mlflow ui
-
-### dagshub
-[dagshub](https://dagshub.com/)
-
-MLFLOW_TRACKING_URI=https://dagshub.com/entbappy/End-to-end-Machine-Learning-Project-with-MLflow.mlflow \
-MLFLOW_TRACKING_USERNAME=entbappy \
-MLFLOW_TRACKING_PASSWORD=6824692c47a369aa6f9eac5b10041d5c8edbcef0 \
-python script.py
-
-Run this to export as env variables:
+To launch the MLflow UI locally:
 
 ```bash
-
-export MLFLOW_TRACKING_URI=https://dagshub.com/entbappy/End-to-end-Machine-Learning-Project-with-MLflow.mlflow
-
-export MLFLOW_TRACKING_USERNAME=entbappy 
-
-export MLFLOW_TRACKING_PASSWORD=6824692c47a369aa6f9eac5b10041d5c8edbcef0
-
+mlflow ui
 ```
 
+### DagsHub Integration
 
+[DagsHub](https://dagshub.com/) is used for remote MLflow tracking.
 
-# AWS-CICD-Deployment-with-Github-Actions
+To connect your own DagsHub account, set the following environment variables:
 
-## 1. Login to AWS console.
+```bash
+export MLFLOW_TRACKING_URI=https://dagshub.com/<YOUR_DAGSHUB_USERNAME>/End-to-End-ML-Wine-Quality-Predictor.mlflow
 
-## 2. Create IAM user for deployment
+export MLFLOW_TRACKING_USERNAME=<YOUR_DAGSHUB_USERNAME>
 
-	#with specific access
+export MLFLOW_TRACKING_PASSWORD=<YOUR_DAGSHUB_TOKEN>
+```
 
-	1. EC2 access : It is virtual machine
+> ⚠️ **Never hardcode your credentials.** Always use environment variables or GitHub Secrets.
 
-	2. ECR: Elastic Container registry to save your docker image in aws
+---
 
+## AWS CI/CD Deployment with GitHub Actions
 
-	#Description: About the deployment
+### 1. Login to AWS Console
 
-	1. Build docker image of the source code
+### 2. Create IAM User for Deployment
 
-	2. Push your docker image to ECR
+Required access:
+- **EC2** — virtual machine for hosting
+- **ECR** — Elastic Container Registry to store Docker images
 
-	3. Launch Your EC2 
+### 3. Create ECR Repository
 
-	4. Pull Your image from ECR in EC2
+Save your ECR URI — you will need it as a GitHub Secret.
 
-	5. Lauch your docker image in EC2
+### 4. Create EC2 Machine (Ubuntu)
 
-	#Policy:
+### 5. Install Docker on EC2
 
-	1. AmazonEC2ContainerRegistryFullAccess
+```bash
+# Optional update
+sudo apt-get update -y
+sudo apt-get upgrade
 
-	2. AmazonEC2FullAccess
+# Required
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+sudo usermod -aG docker ubuntu
+newgrp docker
+```
 
-	
-## 3. Create ECR repo to store/save docker image
-    - Save the URI: 566373416292.dkr.ecr.ap-south-1.amazonaws.com/mlproj
+### 6. Configure EC2 as Self-Hosted GitHub Runner
 
-	
-## 4. Create EC2 machine (Ubuntu) 
+Go to: `Settings > Actions > Runners > New self-hosted runner`
+Choose your OS and run the commands shown.
 
-## 5. Open EC2 and Install docker in EC2 Machine:
-	
-	
-	#optinal
+### 7. Set GitHub Secrets
 
-	sudo apt-get update -y
+In your repository go to `Settings > Secrets and variables > Actions` and add:
 
-	sudo apt-get upgrade
-	
-	#required
+| Secret Name | Value |
+|---|---|
+| `AWS_ACCESS_KEY_ID` | Your AWS access key |
+| `AWS_SECRET_ACCESS_KEY` | Your AWS secret key |
+| `AWS_REGION` | e.g. `us-east-1` |
+| `AWS_ECR_LOGIN_URI` | Your ECR login URI |
+| `ECR_REPOSITORY_NAME` | Your ECR repo name |
 
-	curl -fsSL https://get.docker.com -o get-docker.sh
+---
 
-	sudo sh get-docker.sh
+## About MLflow
 
-	sudo usermod -aG docker ubuntu
+- Production-grade experiment tracking
+- Traces all experiments with parameters, metrics, and artifacts
+- Supports model logging, tagging, and versioning
 
-	newgrp docker
-	
-# 6. Configure EC2 as self-hosted runner:
-    setting>actions>runner>new self hosted runner> choose os> then run command one by one
+---
 
+## Tech Stack
 
-# 7. Setup github secrets:
+| Tool | Purpose |
+|---|---|
+| Python 3.8 | Core language |
+| Flask | Web framework |
+| MLflow | Experiment tracking & model registry |
+| scikit-learn | ElasticNet regression model |
+| DagsHub | Remote MLflow tracking server |
+| Docker | Containerisation |
+| GitHub Actions | CI/CD pipeline |
+| AWS EC2 + ECR | Cloud deployment |
 
-    AWS_ACCESS_KEY_ID=
+---
 
-    AWS_SECRET_ACCESS_KEY=
+## Author
 
-    AWS_REGION = us-east-1
+**Rajesh Mojumder**
+Data Scientist & ML Engineer
 
-    AWS_ECR_LOGIN_URI = demo>>  566373416292.dkr.ecr.ap-south-1.amazonaws.com
-
-    ECR_REPOSITORY_NAME = simple-app
-
-
-
-
-## About MLflow 
-MLflow
-
- - Its Production Grade
- - Trace all of your expriements
- - Logging & tagging your model
-
-
+- 📧 [rajesh.mojumder@g.bracu.ac.bd](mailto:rajesh.mojumder@g.bracu.ac.bd)
+- 🐙 [github.com/Rajesh-Mojumder](https://github.com/Rajesh-Mojumder)
